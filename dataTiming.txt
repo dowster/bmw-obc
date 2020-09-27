@@ -1,0 +1,12 @@
+{signal: [
+  {name: 'clk', wave: '0.1.01010........1.0..1.0..1.0..1......0..1.0..1.0..1.0..1.1......'},
+  {name: 'dat', wave: '1..0...........1..0.10...10...10........1..0.10...10...10.........'},
+
+]}
+
+Green is data, blue is clock
+
+Message prootocl
+Send Preamble
+Send 24 data messages (12 bytes)
+during the pause on the last message set the data line high just before setting clock low
