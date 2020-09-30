@@ -1,10 +1,35 @@
+/**
+ * Including the GeekFactory Shell Library, found in "Sketch -> Include Library -> Manage Libraries"
+ */
 #include <Shell.h>
 
-#define DATA_PIN 3  // GREEN WIRE
-#define CLOCK_PIN 4 //  BLUE WIRE
+/**
+ * This is the pin on the arduino that will be connected to the data pin on the ribbon cable. 
+ * This doesn't need to be pin 3 on the arduino but it does need to be pin 3 on the ribbon cable.
+ */
+#define DATA_PIN 3
 
+/**
+ * This is the pin on the arduino that will be connected to the clock pin on the ribbon cable. 
+ * This doesn't need to be pin 4 on the arduino but it does need to be pin 4 on the ribbon cable.
+ */
+#define CLOCK_PIN 4 
+
+/**
+ * TICK_DELAY is a constant that controls how many microseconds the arduino will wait before changing
+ * the state of the data or clock lines. This is time is 15microseconds on the original PCB but it
+ * seems to work just fine being scaled down to 5. The 15 on the original PCB may have just been a
+ * restriction of the micro controller used.
+ */
 #define TICK_DELAY 5
 
+/**
+ * The display operates on a 12 byte / 96 bit buffer which allows
+ * for almost all of the segments to be independently controlled. 
+ * 
+ * The specification for which bit controls which LCD segment is included
+ * in the "docs/display_buffer_mapping.md" file (Not yet available).
+ */
 byte displayBuffer[12];
 
 void setup() {
@@ -32,9 +57,6 @@ void setup() {
   // We pass the function pointers to the read and write functions that we implement below
   // We can also pass a char pointer to display a custom start message
   shell_init(shell_reader, shell_writer, 0);
-  
-  // Add commands to the shell
-  shell_register(set_int, PSTR("setint"));
   
   // Add commands to the shell
   shell_register(set_all_bits, PSTR("setall"));
@@ -93,6 +115,14 @@ void sendStartMessage() {
   delayMicroseconds(100);
 }
 
+/**
+ * Send a byte to the display
+ * 
+ * @param data to send
+ * @param lastByte is true if we're sending byte 11, 
+ *        the data line should be held high during the 
+ *        falling edge of the last bit's clock signal. 
+ */
 void sendByte(byte data, bool lastByte) {
   for(byte i = 0; i < 8; i++) {
     digitalWrite(DATA_PIN, HIGH);
@@ -107,6 +137,10 @@ void sendByte(byte data, bool lastByte) {
     // The last bit of each nibble seems to have a delay in between clock rising edge and data falling edge
     // Pretty sure the original micro is loading the next nibble during this delay or checking if it's the last nibble.
     if(i == 3 || i == 7) {
+      // Every 4th bit the stock micro has an extra 85 microseconds
+      // of waiting / clock time. I suspect this is so it can move
+      // the next four bits into a buffer or do some other work.
+      // The display seems to work just fine without this delay.
       //delayMicroseconds(85); 
     }
 
@@ -119,6 +153,12 @@ void sendByte(byte data, bool lastByte) {
   }
 }
 
+/**
+ * Format a byte into a string to print it nicely.
+ * 
+ * @param val to convert to string
+ * @param charbuffer points to a buffer of type char[8]
+ */
 void format_bits(byte val, char* charbuffer) {
   for(int i = 0; i < 8; i++) {
     charbuffer[i] = ((val >> (7 - i)) & 0x01) ? '1' : '0';
@@ -143,30 +183,7 @@ int get_display_buffer(int argc, char** argv)
 }
 
 /**
- * Set comand used to change the bytes in the display buffer. 
- */
-int set_int(int argc, char** argv)
-{
-  shell_println("Running \"set\" now");
-  shell_printf("argc=%d, arg1=%s, arg2=%s, arg3=%s\n\r", argc, argv[0], argv[1], argv[2]);
-  if(argc != 3) {
-    shell_println("Error: two arguments \"position\" and \"value\" were not provided.");
-    shell_println("       Command Syntax is \"set [position] [value]");
-    shell_printf("%d args provided\n\r", argc);
-    return SHELL_RET_FAILURE;
-  }
-
-  int bytePos = atoi(argv[1]);
-  byte byteVal = (byte)atoi(argv[2]);
-
-  displayBuffer[bytePos] = byteVal;
-  
-  shell_println("Byte set!! Yay!!");
-  return SHELL_RET_SUCCESS;
-}
-
-/**
- * Set comand used to change the bytes in the display buffer. 
+ * Command to set a particular bit in the buffer to active. 
  */
 int set_bit(int argc, char** argv)
 {
@@ -186,7 +203,7 @@ int set_bit(int argc, char** argv)
 }
 
 /**
- * Set comand used to change the bytes in the display buffer. 
+ * Command to clear a particular bit in the buffer.  
  */
 int clear_bit(int argc, char** argv)
 {
@@ -214,7 +231,7 @@ int set_bits(int argc, char** argv)
   shell_printf("argc=%d, arg1=%s, arg2=%s, arg3=%s\n\r", argc, argv[0], argv[1], argv[2]);
   if(argc != 3) {
     shell_println("Error: two arguments \"position\" and \"value\" were not provided.");
-    shell_println("       Command Syntax is \"set [position] [value]");
+    shell_println("       Command Syntax is \"set [position] [value]\" Example: set 2 01010101");
     shell_printf("%d args provided\n\r", argc);
     return SHELL_RET_FAILURE;
   }
@@ -234,7 +251,7 @@ int set_bits(int argc, char** argv)
 }
 
 /**
- * Set comand used to change the bytes in the display buffer. 
+ * Set comand used to set all bytes in the display buffer to the same value. 
  */
 int set_all_bits(int argc, char** argv)
 {

@@ -1,10 +1,10 @@
-{signal: [
-  {name: 'clk', wave: '0.1.01010........1.0..1.0..1.0..1......0..1.0..1.0..1.0..1.1......'},
-  {name: 'dat', wave: '1..0...........1..0.10...10...10........1..0.10...10...10.........'},
-
-]}
-
-Green is data, blue is clock
+Looking at the 5 pin header on the PCB there is a + marking near the "top" which I'll use as pin 1. 
+To keep it simple, Pin 1 on the PCB header connects to Pin 1 on the ribbon cable from the display.
+Pin 1 is possibly the +5v feed.
+Pin 2 seems to be a PWM signal to control the opacity of the LCD segments
+Pin 3 the data line
+Pin 4 is the clock signal
+Pin 5 is the ground
 
 Message prootocl
 Send Preamble
