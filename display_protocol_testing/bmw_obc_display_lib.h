@@ -1,3 +1,5 @@
+#include "stdint.h"
+
 const uint8_t SevenSegmentASCII[96] = {
 	0b00000000, /* (space) */
 	0b10000110, /* ! */
@@ -196,7 +198,7 @@ const uint16_t FourteenSegmentASCII[96] = {
 	0b000000000000000, /* (del) */
 };
 
-const uint16_t SixteenSegmentASCII[96] = {
+const uint32_t SixteenSegmentASCII[96] = {
 	0b00000000000000000, /* (space) */
 	0b10000000000001100, /* ! */
 	0b00000001000000100, /* " */

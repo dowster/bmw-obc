@@ -36,7 +36,7 @@ Digit 1 has an additional two segments which are similar to a half height J and 
 
 * 16 Segment: DP-G1-M-L-K-G2-J-I-H-F-E-D1-D2-C-B-A2-A1
 * 14 Segment: DP-N-M-L-K-J-H-G2-G1-F-E-D-C-B-A // TODO: Test the 14 seg and make sure I know what is joined.
-* 7 Segment: DP-G-F-E-D-C-B-A
+* 7 Segment: DP-G-F-E-D-C-B-A -> F-A-B-G-C-D-E-DP
 
 
 # Credits

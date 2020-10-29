@@ -1,5 +1,11 @@
 
-#include "bmw_obc_display_lib.h"
+#include "bmw_obc_display_lib_converted.h"
+
+#include "stdint.h"
+#include "string.h"
+#include "stdbool.h"
+
+#define byte unsigned char
 
 enum Digits {
     DIGIT_1 = 1,
@@ -18,7 +24,7 @@ short digits[11] = {0};
 
 byte buffer[2][12] = {0};
 
-int activeBuffer = 0;
+byte activeBuffer = 0;
 
 /**
  * Set any of the digits to an arbitraty state. 
@@ -50,7 +56,6 @@ void set_ascii_digit(enum Digits digit, char val, bool decimal) {
         offsetVal = val - 0x20;
     }
 
-
     if(digit >= DIGIT_1 && digit <= DIGIT_4) {
         digits[digit] = 0;
         if(decimal && (digit == DIGIT_2 || digit == DIGIT_3)) {
@@ -71,44 +76,52 @@ void set_ascii_digit(enum Digits digit, char val, bool decimal) {
  * Set a colon's state. Any non-zero state will be treated as on and
  * a zero state will be treated as off.
  */
-void set_colon(enum Digits digit, short state) {
+void set_colon(enum Digits digit, bool state) {
     if(digit == COLON_1 || digit == COLON_2) {
-        digits[digit] = (state > 0);
+        digits[digit] = (state && true);
     }
 }
 
+/**
+ * Writes a string to the digit buffers.
+ * 
+ * @param char* displayStr that is to be displayed
+ *              Should be between 0 and 8 characters long. 
+ *              if the string is 0 characters long the digits
+ *              will be cleared and if the string is 8+ charscters
+ *              long anything after 8 characters will not be displayed.
+ */
 void obc_writestr(char* displayStr) {
-    int length = strlen(displayStr);
+    int len = strlen(displayStr);
+    int digit = 0;
 
-    // TODO
+    for(int digit; digit < len && digit <= DIGIT_8; digit++) {
+        set_ascii_digit(digit, displayStr[digit], false);
+    }
+
+    for(digit; digit <= DIGIT_8; digit++) {
+        digits[digit] = 0x00;
+    }
+
 }
 
-byte get_top_seven_segment(short state) {
-    byte result = 0;
-    // copy A segment bit
-    result |= (state & 0x01) << 2;
-    // copy the B segment bit
-    result |= (state & 0x02);
-    // copy the G segment bit
-    result |= (state & 0x40) >> 6;
-    // copy the F segment bit
-    result |= (state & 0x20) >> 2;
-    return result;
+/**
+ * TODO: Turn this into a macro? 
+ */
+static inline byte get_top_seven_segment(short state) {
+    return (byte) ((state >> 4) & 0x0F);
 }
 
-byte get_bottom_seven_segment(short state) {
-    byte result = 0;
-
-    // copy C segment bit
-    result |= (state & 0x04) << 1;
-    // copy D segment bit
-    result |= (state & 0x08) >> 1;
-    // copy E segment bit
-    result |= (state & 0x10) >> 3;
-    return result;
+/**
+ * TODO: Turn this into a macro? 
+ */
+static inline byte get_bottom_seven_segment(short state) {
+    return (byte) (state & 0x0f);
 }
 
-byte get_top_sixteen_segment(short state) {
+#define get_bottom_seven_seg(state) (state & 0x0F)
+
+static inline byte get_top_sixteen_segment(short state) {
     short result = 0;
 
     // Copy G1 segment bit
@@ -128,7 +141,7 @@ byte get_top_sixteen_segment(short state) {
     return result;
 }
 
-byte get_bottom_sixteen_segment(short state) {
+static inline byte get_bottom_sixteen_segment(short state) {
     short result = 0;
 
     // Copy C segment bit
@@ -148,11 +161,11 @@ byte get_bottom_sixteen_segment(short state) {
     return result;
 }
 
-int get_inactive_buffer() {
+static inline int get_inactive_buffer() {
     return activeBuffer == 1 ? 0 : 1;
 }
 
-void update_buffer() {
+static inline void update_buffer() {
     int inactiveBuffer = get_inactive_buffer();
 
     // clear the inactive buffer
@@ -173,9 +186,9 @@ void update_buffer() {
     // Set the decimal, colons, and + characters. 
     buffer[inactiveBuffer][2] |= digits[COLON_1] << 4;
     buffer[inactiveBuffer][4] |= digits[COLON_2] << 7;
-    buffer[inactiveBuffer][2] |= (digits[DIGIT_1] & 0x80) ? 0x01 : 0x00;
-    buffer[inactiveBuffer][3] |= (digits[DIGIT_2] & 0x80) ? 0x01 : 0x00;
-    buffer[inactiveBuffer][3] |= (digits[DIGIT_3] & 0x80) ? 0x10 : 0x00;
+    buffer[inactiveBuffer][2] |= (digits[DIGIT_1] & 0x01);
+    buffer[inactiveBuffer][3] |= (digits[DIGIT_2] & 0x01);
+    buffer[inactiveBuffer][3] |= (digits[DIGIT_3] & 0x01) << 4;
 
     // Get the 16-segs. Good luck.
     buffer[inactiveBuffer][4] |= get_top_sixteen_segment(digits[DIGIT_6]);
@@ -195,8 +208,7 @@ void update_buffer() {
     buffer[inactiveBuffer][7] |= (digits[DIGIT_5] & 0x0040) >> 11;
     buffer[inactiveBuffer][8] |= (digits[DIGIT_6] & 0x0040) >> 11;
     buffer[inactiveBuffer][9] |= (digits[DIGIT_7] & 0x0040) >> 11;
+
+    activeBuffer = (activeBuffer == 0) ? 1 : 0;
 }
 
-void update_display() {
-
-}
