@@ -3,6 +3,8 @@
  */
 #include <Shell.h>
 
+#include "bmw_obc_display_lib_converted.h"
+
 /**
  * This is the pin on the arduino that will be connected to the data pin on the ribbon cable. 
  * This doesn't need to be pin 3 on the arduino but it does need to be pin 3 on the ribbon cable.
@@ -25,12 +27,11 @@
 
 /**
  * The display operates on a 12 byte / 96 bit buffer which allows
- * for almost all of the segments to be independently controlled. 
  * 
  * The specification for which bit controls which LCD segment is included
  * in the "docs/display_buffer_mapping.md" file (Not yet available).
  */
-byte displayBuffer[12];
+//byte displayBuffer[12];
 
 void setup() {
   // Wait after reset or power on...
@@ -44,9 +45,9 @@ void setup() {
 
   // Not sure if I need to clear the buffer contents but fuck it
   // better safe than sorry.
-  for(int i = 0; i < 12; i++) {
-    displayBuffer[i] = 0;
-  }
+  //for(int i = 0; i < 12; i++) {
+  //  displayBuffer[i] = 0;
+  //}
   
   // Prepare serial communication
   Serial.begin(9600);
@@ -66,7 +67,7 @@ void setup() {
 
   
   // Add commands to the shell
-  shell_register(set_bit, PSTR("set"));
+  shell_register(set_str, PSTR("set"));
   
   // Add commands to the shell
   shell_register(clear_bit, PSTR("clr"));
@@ -81,7 +82,7 @@ void loop() {
     // put your main code here, to run repeatedly:
     sendStartMessage();
     for(int i = 0; i < 12; i++) {
-      sendByte(displayBuffer[i], i == 11);
+      sendByte(obc_buffer[obc_active_buffer][i], i == 11);
     }
   }
   loopCount++;
@@ -174,7 +175,7 @@ int get_display_buffer(int argc, char** argv)
   shell_print("Display Buffer: ");
   for(int i = 0; i < 12; i++) {
     char binaryString[9] = {};
-    format_bits(displayBuffer[i], binaryString);
+    format_bits(obc_buffer[obc_active_buffer][i], binaryString);
     shell_printf("%s ", binaryString);
   }
   shell_println("");
@@ -196,7 +197,27 @@ int set_bit(int argc, char** argv)
     return SHELL_RET_FAILURE;
   }
 
-  displayBuffer[atoi(argv[1])] |= (1 << atoi(argv[2]));
+  obc_buffer[obc_active_buffer][atoi(argv[1])] |= (1 << atoi(argv[2]));
+  
+  shell_println("Bit set!! Yay!!");
+  return SHELL_RET_SUCCESS;
+}
+
+/**
+ * Command to set a particular bit in the buffer to active. 
+ */
+int set_str(int argc, char** argv)
+{
+  shell_println("Running \"set\" now");
+  shell_printf("argc=%d, arg1=%s, arg2=%s, arg3=%s\n\r", argc, argv[0], argv[1], argv[2]);
+  if(argc != 2) {
+    shell_println("Error: Need a string to write");
+    shell_println("       Command Syntax is \"set [str]");
+    shell_printf("%d args provided\n\r", argc);
+    return SHELL_RET_FAILURE;
+  }
+
+  obc_writestr(argv[1]);
   
   shell_println("Bit set!! Yay!!");
   return SHELL_RET_SUCCESS;
@@ -216,7 +237,7 @@ int clear_bit(int argc, char** argv)
     return SHELL_RET_FAILURE;
   }
 
-  displayBuffer[atoi(argv[1])] &= ~(1 << atoi(argv[2]));
+  obc_buffer[obc_active_buffer][atoi(argv[1])] &= ~(1 << atoi(argv[2]));
   
   shell_println("Bit cleared!! Yay!!");
   return SHELL_RET_SUCCESS;
@@ -244,7 +265,7 @@ int set_bits(int argc, char** argv)
     if (argv[2][i] == '1') value++;  //add 1 if needed
   }
 
-  displayBuffer[bytePos] = value;
+  obc_buffer[obc_active_buffer][bytePos] = value;
   
   shell_println("Byte set!! Yay!!");
   return SHELL_RET_SUCCESS;
@@ -273,7 +294,7 @@ int set_all_bits(int argc, char** argv)
   }
   
   for(int i = 0; i < 12; i++) {
-    displayBuffer[i] = value;
+    obc_buffer[obc_active_buffer][i] = value;
   }
   
   shell_println("bytes set!! Yay!!");

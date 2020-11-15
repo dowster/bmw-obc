@@ -1,4 +1,11 @@
+#include "arduino.h"
 #include "stdint.h"
+#include "string.h"
+
+#ifndef __BMW_OBC_H
+#define __BMW_OBC_H
+
+typedef uint8_t byte;
 
 const uint8_t SevenSegmentASCII[96] = {
 	0b00000000, /* (space) */ /* From: 00000000 */
@@ -296,3 +303,18 @@ const uint32_t SixteenSegmentASCII[96] = {
 	0b01100110000000000, /* ~ */ /* Not converted.. */
 	0b00000000000000000, /* (del) */ /* Not converted.. */
 };
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void obc_writestr(char* displayStr);
+
+extern byte obc_buffer[2][12];
+
+extern byte obc_active_buffer;
+#ifdef __cplusplus
+}
+#endif
+
+#endif
