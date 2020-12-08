@@ -8,20 +8,7 @@
 extern "C" {
 #endif
 
-enum Digits {
-    DIGIT_1 = 1,
-    DIGIT_2 = 2,
-    DIGIT_3 = 3,
-    DIGIT_4 = 4,
-    DIGIT_5 = 5,
-    DIGIT_6 = 6,
-    DIGIT_7 = 7,
-    DIGIT_8 = 8, 
-    COLON_1 = 9,
-    COLON_2 = 10
-};
-
-short digits[11] = {0};
+uint32_t digits[10] = {0};
 
 
 byte obc_buffer[2][12] = {0};
@@ -33,7 +20,7 @@ byte obc_active_buffer = 0;
  * Use this for drawing custom shapes or symbols that aren't in the
  * ASCII character set.
  */
-void set_raw_digit(enum Digits digit, short state) {
+void set_raw_digit(enum Digits digit, uint32_t state) {
     if(digit < DIGIT_1 || digit > DIGIT_8) {
         return;
     }
@@ -64,13 +51,13 @@ void set_ascii_digit(enum Digits digit, char val, bool decimal) {
             digits[digit] |= 0x80;
         }
         // set 7seg ascii
-        digits[digit] = SevenSegmentASCII[offsetVal];
+        digits[digit] = pgm_read_word_near(SevenSegmentASCII + offsetVal);
     } else if (digit >= DIGIT_5 && digit <= DIGIT_7) {
         // set 16seg ascii
-        digits[digit] = SixteenSegmentASCII[offsetVal];
+        digits[digit] = pgm_read_word_near(SixteenSegmentASCII + offsetVal);
     } else if (digit == DIGIT_8) {
         // set 14seg ascii
-        digits[digit] = FourteenSegmentASCII[offsetVal];
+        digits[digit] = pgm_read_word_near(FourteenSegmentASCII + offsetVal);
     }
 }
 
@@ -95,9 +82,9 @@ void set_colon(enum Digits digit, bool state) {
  */
 void obc_writestr(char* displayStr) {
     int len = strlen(displayStr);
-    int digit = 0;
+    int digit = DIGIT_1;
 
-    for(int digit; digit < len && digit <= DIGIT_8; digit++) {
+    for(digit; digit < len && digit <= DIGIT_8; digit++) {
         set_ascii_digit(digit, displayStr[digit], false);
     }
 
@@ -110,21 +97,21 @@ void obc_writestr(char* displayStr) {
 /**
  * TODO: Turn this into a macro? 
  */
-static inline byte get_top_seven_segment(short state) {
+static inline byte get_top_seven_segment(uint32_t state) {
     return (byte) ((state >> 4) & 0x0F);
 }
 
 /**
  * TODO: Turn this into a macro? 
  */
-static inline byte get_bottom_seven_segment(short state) {
+static inline byte get_bottom_seven_segment(uint32_t state) {
     return (byte) (state & 0x0f);
 }
 
 #define get_bottom_seven_seg(state) (state & 0x0F)
 
-static inline byte get_top_sixteen_segment(short state) {
-    short result = 0;
+static inline byte get_top_sixteen_segment(uint32_t state) {
+    byte result = 0;
 
     // Copy G1 segment bit
     result |= (state & 0x4000) >> 8;
@@ -135,7 +122,7 @@ static inline byte get_top_sixteen_segment(short state) {
     // Copy A1 segment 
     result |= (state & 0x0001) << 3;
     // copy I segment
-    result |= (state & 0x0200) >> 6;
+    result |= (state & 0x0200) >> 7;
     // Copy A2 segment
     result |= (state & 0x0002);
     // Copy J segment
@@ -143,23 +130,23 @@ static inline byte get_top_sixteen_segment(short state) {
     return result;
 }
 
-static inline byte get_bottom_sixteen_segment(short state) {
-    short result = 0;
+static inline byte get_bottom_sixteen_segment(uint32_t state) {
+    byte result = 0;
 
     // Copy C segment bit
-    result |= (state & 0x0008) << 4;
+    result |= (state & 0x0008) << 4; // 0b1000 0000
     // Copy K segment
-    result |= (state & 0x0800) >> 5;
+    result |= (state & 0x0800) >> 5; // 0b0100 0000
     // Copy D2 segment
-    result |= (state & 0x0010) << 1;
+    result |= (state & 0x0010) << 1; // 0b0010 0000
     // Copy L segment 
-    result |= (state & 0x1000) >> 8;
+    result |= (state & 0x2000) >> 9; // 0b0001 0000
     // copy D1 segment
-    result |= (state & 0x0020) >> 2;
+    result |= (state & 0x0020) >> 2; // 0b0000 1000
     // Copy M segment
-    result |= (state & 0x2000) >> 12;
+    result |= (state & 0x4000) >> 12; // 0b0000 0100
     // Copy E segment
-    result |= (state & 0x0040) >> 5;
+    result |= (state & 0x0040) >> 5; // 0b0000 0010
     return result;
 }
 
@@ -167,7 +154,7 @@ static inline int get_inactive_buffer() {
     return obc_active_buffer == 1 ? 0 : 1;
 }
 
-static inline void update_buffer() {
+void update_buffer() {
     int inactiveBuffer = get_inactive_buffer();
 
     // clear the inactive buffer

@@ -31,7 +31,6 @@
  * The specification for which bit controls which LCD segment is included
  * in the "docs/display_buffer_mapping.md" file (Not yet available).
  */
-//byte displayBuffer[12];
 
 void setup() {
   // Wait after reset or power on...
@@ -74,7 +73,12 @@ void setup() {
   
   // Add commands to the shell
   shell_register(get_display_buffer, PSTR("get"));
+  char testStr[] = {'1','2','3','4','T','E','S','T',0};
+  obc_writestr(testStr);
 
+  update_buffer();
+  update_buffer();
+  update_buffer();
 }
 int loopCount = 0;
 void loop() {
@@ -218,6 +222,7 @@ int set_str(int argc, char** argv)
   }
 
   obc_writestr(argv[1]);
+  update_buffer();
   
   shell_println("Bit set!! Yay!!");
   return SHELL_RET_SUCCESS;

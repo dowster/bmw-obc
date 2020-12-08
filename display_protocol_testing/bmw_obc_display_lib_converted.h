@@ -7,7 +7,7 @@
 
 typedef uint8_t byte;
 
-const uint8_t SevenSegmentASCII[96] = {
+const uint8_t SevenSegmentASCII[96] PROGMEM  = {
 	0b00000000, /* (space) */ /* From: 00000000 */
 	0b00101001, /* ! */ /* From: 10000110 */
 	0b10100000, /* " */ /* From: 00100010 */
@@ -106,7 +106,7 @@ const uint8_t SevenSegmentASCII[96] = {
 	0b00000000, /* (del) */ /* From: 00000000 */
 };
 
-const uint16_t FourteenSegmentASCII[96] = {
+const uint16_t FourteenSegmentASCII[96] PROGMEM  = {
 	0b000000000000000, /* (space) */ /* Not converted.. */
 	0b100000000000110, /* ! */ /* Not converted.. */
 	0b000001000000010, /* " */ /* Not converted.. */
@@ -205,7 +205,7 @@ const uint16_t FourteenSegmentASCII[96] = {
 	0b000000000000000, /* (del) */ /* Not converted.. */
 };
 
-const uint32_t SixteenSegmentASCII[96] = {
+const uint32_t SixteenSegmentASCII[96] PROGMEM  = {
 	0b00000000000000000, /* (space) */ /* Not converted.. */
 	0b10000000000001100, /* ! */ /* Not converted.. */
 	0b00000001000000100, /* " */ /* Not converted.. */
@@ -304,11 +304,27 @@ const uint32_t SixteenSegmentASCII[96] = {
 	0b00000000000000000, /* (del) */ /* Not converted.. */
 };
 
+enum Digits {
+    DIGIT_1 = 0,
+    DIGIT_2 = 1,
+    DIGIT_3 = 2,
+    DIGIT_4 = 3,
+    DIGIT_5 = 4,
+    DIGIT_6 = 5,
+    DIGIT_7 = 6,
+    DIGIT_8 = 7,
+    COLON_1 = 8,
+    COLON_2 = 9
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 void obc_writestr(char* displayStr);
+void update_buffer();
+void set_ascii_digit(enum Digits digit, char val, bool decimal);
+
 
 extern byte obc_buffer[2][12];
 
