@@ -1,0 +1,264 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Switch:SW_Push SW_HR_DATE
+U 1 1 6039DEE9
+P 1500 1350
+F 0 "SW_HR_DATE" H 1500 1635 50  0000 C CNN
+F 1 "SW_Push" H 1500 1544 50  0000 C CNN
+F 2 "" H 1500 1550 50  0001 C CNN
+F 3 "~" H 1500 1550 50  0001 C CNN
+	1    1500 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_AVG_MPG
+U 1 1 6039FF0F
+P 1500 1950
+F 0 "SW_AVG_MPG" H 1500 2235 50  0000 C CNN
+F 1 "SW_Push" H 1500 2144 50  0000 C CNN
+F 2 "" H 1500 2150 50  0001 C CNN
+F 3 "~" H 1500 2150 50  0001 C CNN
+	1    1500 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_TEMP
+U 1 1 603A0C26
+P 1500 2550
+F 0 "SW_TEMP" H 1500 2835 50  0000 C CNN
+F 1 "SW_Push" H 1500 2744 50  0000 C CNN
+F 2 "" H 1500 2750 50  0001 C CNN
+F 3 "~" H 1500 2750 50  0001 C CNN
+	1    1500 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_AVG_MPH
+U 1 1 603A11C7
+P 3050 1350
+F 0 "SW_AVG_MPH" H 3050 1635 50  0000 C CNN
+F 1 "SW_Push" H 3050 1544 50  0000 C CNN
+F 2 "" H 3050 1550 50  0001 C CNN
+F 3 "~" H 3050 1550 50  0001 C CNN
+	1    3050 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_RANGE
+U 1 1 603A170C
+P 3050 1950
+F 0 "SW_RANGE" H 3050 2235 50  0000 C CNN
+F 1 "SW_Push" H 3050 2144 50  0000 C CNN
+F 2 "" H 3050 2150 50  0001 C CNN
+F 3 "~" H 3050 2150 50  0001 C CNN
+	1    3050 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_CODE
+U 1 1 603A1C20
+P 3050 2550
+F 0 "SW_CODE" H 3050 2835 50  0000 C CNN
+F 1 "SW_Push" H 3050 2744 50  0000 C CNN
+F 2 "" H 3050 2750 50  0001 C CNN
+F 3 "~" H 3050 2750 50  0001 C CNN
+	1    3050 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_SET_RES
+U 1 1 603A21A3
+P 4450 2550
+F 0 "SW_SET_RES" H 4450 2835 50  0000 C CNN
+F 1 "SW_Push" H 4450 2744 50  0000 C CNN
+F 2 "" H 4450 2750 50  0001 C CNN
+F 3 "~" H 4450 2750 50  0001 C CNN
+	1    4450 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_1000
+U 1 1 603A3AFE
+P 1350 3100
+F 0 "SW_1000" H 1350 3385 50  0000 C CNN
+F 1 "SW_Push" H 1350 3294 50  0000 C CNN
+F 2 "" H 1350 3300 50  0001 C CNN
+F 3 "~" H 1350 3300 50  0001 C CNN
+	1    1350 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_100
+U 1 1 603A443C
+P 2300 3100
+F 0 "SW_100" H 2300 3385 50  0000 C CNN
+F 1 "SW_Push" H 2300 3294 50  0000 C CNN
+F 2 "" H 2300 3300 50  0001 C CNN
+F 3 "~" H 2300 3300 50  0001 C CNN
+	1    2300 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_10
+U 1 1 603A4AD3
+P 3200 3100
+F 0 "SW_10" H 3200 3385 50  0000 C CNN
+F 1 "SW_Push" H 3200 3294 50  0000 C CNN
+F 2 "" H 3200 3300 50  0001 C CNN
+F 3 "~" H 3200 3300 50  0001 C CNN
+	1    3200 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_1
+U 1 1 603A502E
+P 4050 3100
+F 0 "SW_1" H 4050 3385 50  0000 C CNN
+F 1 "SW_Push" H 4050 3294 50  0000 C CNN
+F 2 "" H 4050 3300 50  0001 C CNN
+F 3 "~" H 4050 3300 50  0001 C CNN
+	1    4050 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW_UNIT
+U 1 1 603A5653
+P 4850 3100
+F 0 "SW_UNIT" H 4850 3385 50  0000 C CNN
+F 1 "SW_Push" H 4850 3294 50  0000 C CNN
+F 2 "" H 4850 3300 50  0001 C CNN
+F 3 "~" H 4850 3300 50  0001 C CNN
+	1    4850 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_LED SW_MAX_MPH
+U 1 1 603A6D44
+P 4450 1300
+F 0 "SW_MAX_MPH" H 4450 1685 50  0000 C CNN
+F 1 "LED_MAX_MPH" H 4450 1594 50  0000 C CNN
+F 2 "" H 4450 1600 50  0001 C CNN
+F 3 "~" H 4450 1600 50  0001 C CNN
+	1    4450 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push_LED SW_TIMER
+U 1 1 603A7971
+P 4450 1900
+F 0 "SW_TIMER" H 4450 2285 50  0000 C CNN
+F 1 "LED_TIMER" H 4450 2194 50  0000 C CNN
+F 2 "" H 4450 2200 50  0001 C CNN
+F 3 "~" H 4450 2200 50  0001 C CNN
+	1    4450 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x07 J1_LEFT
+U 1 1 603AC027
+P 1650 4350
+F 0 "J1_LEFT" V 1522 4730 50  0000 L CNN
+F 1 "Conn_01x07" V 1613 4730 50  0000 L CNN
+F 2 "" H 1650 4350 50  0001 C CNN
+F 3 "~" H 1650 4350 50  0001 C CNN
+	1    1650 4350
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x07 J2_RIGHT
+U 1 1 603AC62C
+P 6800 1300
+F 0 "J2_RIGHT" V 6672 1680 50  0000 L CNN
+F 1 "Conn_01x07" V 6763 1680 50  0000 L CNN
+F 2 "" H 6800 1300 50  0001 C CNN
+F 3 "~" H 6800 1300 50  0001 C CNN
+	1    6800 1300
+	-1   0    0    1   
+$EndComp
+Text GLabel 1700 1950 2    50   Input ~ 0
+SW_AVG_MPG
+Text GLabel 7000 1000 2    50   Input ~ 0
+SW_AVG_MPG
+Text GLabel 1700 1350 2    50   Input ~ 0
+SW_HR_DATE
+Text GLabel 1700 2550 2    50   Input ~ 0
+SW_TEMP
+Text GLabel 3250 1350 2    50   Input ~ 0
+SW_AVG_MPG
+Text GLabel 3250 1950 2    50   Input ~ 0
+SW_RANGE
+Text GLabel 3250 2550 2    50   Input ~ 0
+SW_CODE
+Text GLabel 4650 2550 2    50   Input ~ 0
+SW_SET_RES
+Text GLabel 4650 1800 2    50   Input ~ 0
+SW_TIMER
+Text GLabel 4650 1200 2    50   Input ~ 0
+SW_MAX_MPH
+Text GLabel 4650 1300 2    50   Input ~ 0
+LED_MAX_MPH
+Text GLabel 4650 1900 2    50   Input ~ 0
+LED_TIMER
+Text GLabel 1550 3100 2    50   Input ~ 0
+SW_1000
+Text GLabel 2500 3100 2    50   Input ~ 0
+SW_100
+Text GLabel 3400 3100 2    50   Input ~ 0
+SW_10
+Text GLabel 4250 3100 2    50   Input ~ 0
+SW_1
+Text GLabel 5050 3100 2    50   Input ~ 0
+SW_UNIT
+Text GLabel 7000 1400 2    50   Input ~ 0
+COM_2
+Text GLabel 1300 1950 0    50   Input ~ 0
+COM_2
+Text GLabel 1300 1350 0    50   Input ~ 0
+COM_2
+Text GLabel 1150 3100 0    50   Input ~ 0
+COM_1
+Text GLabel 2100 3100 3    50   Input ~ 0
+COM_1
+Text GLabel 3000 3100 3    50   Input ~ 0
+COM_1
+Text GLabel 3850 3100 3    50   Input ~ 0
+COM_1
+Text GLabel 4650 3100 3    50   Input ~ 0
+COM_1
+Text GLabel 7000 1100 2    50   Input ~ 0
+SW_TEMP
+Text GLabel 7000 1500 2    50   Input ~ 0
+SW_HR_DATE
+Text GLabel 7000 1600 2    50   Input ~ 0
+COM_1
+Text GLabel 1550 4150 1    50   Input ~ 0
+LED_COM
+Text GLabel 1450 4150 1    50   Input ~ 0
+LED_TIMER
+Text GLabel 1350 4150 1    50   Input ~ 0
+LED_MAX_MPH
+Text GLabel 4250 1300 0    50   Input ~ 0
+LED_COM
+Text GLabel 4250 1900 0    50   Input ~ 0
+LED_COM
+Text GLabel 1950 4150 1    50   Input ~ 0
+MYSTERY_1
+Text GLabel 1850 4150 1    50   Input ~ 0
+MYSTERY_2
+Text GLabel 1750 4150 1    50   Input ~ 0
+MYSTERY_3
+$EndSCHEMATC
