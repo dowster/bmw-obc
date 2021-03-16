@@ -1,15 +1,5 @@
-/*
-  DigitalReadSerial
-
-  Reads a digital input on pin 2, prints the result to the Serial Monitor
-
-  This example code is in the public domain.
-
-  http://www.arduino.cc/en/Tutorial/DigitalReadSerial
-*/
-
-
-// the setup routine runs once when you press reset:
+// test program to figure out which pins are connected when testing
+// a 4x4 keypad matrix
 void setup() {
   // initialize serial communication at 9600 bits per second:
   Serial.begin(115200);
