@@ -41,8 +41,10 @@ void set_decimal(enum Digits digit, bool on) {
 void set_ascii_digit(enum Digits digit, char val, bool decimal) {
     char offsetVal = 0;
 
-    if(val > 0x20 && val < 0xFF) {
-        offsetVal = val - 0x20;
+    if(val > 0x20 && val < 0x7F) {
+      offsetVal = val - 0x20;
+    } else {
+      offsetVal = 0;
     }
 
     if(digit >= DIGIT_1 && digit <= DIGIT_4) {
@@ -114,19 +116,19 @@ static inline byte get_top_sixteen_segment(uint32_t state) {
     byte result = 0;
 
     // Copy G1 segment bit
-    result |= (state & 0x4000) >> 8;
+    result |= (state & 0x8000) >> 9; // 0b0100 0000
     // Copy F segment
-    result |= (state & 0x0080) >> 2;
+    result |= (state & 0x0080) >> 2; // 0b0010 0000
     // Copy H segment
-    result |= (state & 0x0100) >> 3;
+    result |= (state & 0x0100) >> 4; // 0b0001 0000
     // Copy A1 segment 
-    result |= (state & 0x0001) << 3;
+    result |= (state & 0x0001) << 3; // 0b0000 1000
     // copy I segment
-    result |= (state & 0x0200) >> 7;
+    result |= (state & 0x0200) >> 7; // 0b0000 0100
     // Copy A2 segment
-    result |= (state & 0x0002);
+    result |= (state & 0x0002); // 0b0000 0010
     // Copy J segment
-    result |= (state & 0x0400) >> 10;
+    result |= (state & 0x0400) >> 10; // 0b0000 0001
     return result;
 }
 
@@ -136,7 +138,7 @@ static inline byte get_bottom_sixteen_segment(uint32_t state) {
     // Copy C segment bit
     result |= (state & 0x0008) << 4; // 0b1000 0000
     // Copy K segment
-    result |= (state & 0x0800) >> 5; // 0b0100 0000
+    result |= (state & 0x1000) >> 6; // 0b0100 0000
     // Copy D2 segment
     result |= (state & 0x0010) << 1; // 0b0010 0000
     // Copy L segment 
@@ -150,53 +152,96 @@ static inline byte get_bottom_sixteen_segment(uint32_t state) {
     return result;
 }
 
+static inline byte get_top_fourteen_segment(uint32_t state) {
+    byte result = 0;
+
+    // Copy G1 segment bit
+    result |= (state & 0x0040);      // 0b0100 0000
+    // Copy F segment
+    result |= (state & 0x0020);      // 0b0010 0000
+    // Copy H segment
+    result |= (state & 0x0100) >> 4; // 0b0001 0000
+    // copy I segment
+    result |= (state & 0x0200) >> 6; // 0b0000 1000
+    // Copy A1 segment 
+    result |= (state & 0x0001) << 2; // 0b0000 0100
+    // Copy J segment
+    result |= (state & 0x0400) >> 9; // 0b0000 0010
+    // Copy B segment
+    result |= (state & 0x0002) >> 1; // 0b0000 0001
+    return result;
+}
+
+static inline byte get_bottom_fourteen_segment(uint32_t state) {
+    byte result = 0;
+
+    // Copy G2 segment bit
+    result |= (state & 0x80);         // 0b1000 0000
+    // Copy C segment bit
+    result |= (state & 0x0004) << 4;  // 0b0100 0000
+    // Copy K segment
+    result |= (state & 0x0800) >> 6;  // 0b0010 0000
+    // copy D1/2 segment
+    result |= (state & 0x0008) << 1;  // 0b0001 0000
+    // Copy L segment 
+    result |= (state & 0x1000) >> 9;  // 0b0000 1000
+    // Copy M segment
+    result |= (state & 0x2000) >> 11; // 0b0000 0100
+    // Copy E segment
+    result |= (state & 0x0010) >> 3;  // 0b0000 0010
+    return result;
+}
+
 static inline int get_inactive_buffer() {
     return obc_active_buffer == 1 ? 0 : 1;
 }
 
 void update_buffer() {
-    int inactiveBuffer = get_inactive_buffer();
+    int inactiveBufferId = get_inactive_buffer();
+
+    unsigned char * inactiveBuffer = obc_buffer[inactiveBufferId];
 
     // clear the inactive buffer
     for(byte i = 0; i < 12; i++) {
-        obc_buffer[inactiveBuffer][i] = 0;
+        inactiveBuffer[i] = 0;
     }
 
     // Get the top half of the 7-segs and write to buffer
-    obc_buffer[inactiveBuffer][0] |= get_top_seven_segment(digits[DIGIT_4]);
-    obc_buffer[inactiveBuffer][0] |= get_top_seven_segment(digits[DIGIT_3]) << 4;
-    obc_buffer[inactiveBuffer][1] |= get_top_seven_segment(digits[DIGIT_2]);
-    obc_buffer[inactiveBuffer][1] |= get_top_seven_segment(digits[DIGIT_1]) << 4;
-    obc_buffer[inactiveBuffer][2] |= get_bottom_seven_segment(digits[DIGIT_1]);
-    obc_buffer[inactiveBuffer][2] |= get_bottom_seven_segment(digits[DIGIT_2]) << 4;
-    obc_buffer[inactiveBuffer][3] |= get_bottom_seven_segment(digits[DIGIT_3]);
-    obc_buffer[inactiveBuffer][3] |= get_bottom_seven_segment(digits[DIGIT_4]) << 4;
+    inactiveBuffer[0] |= get_top_seven_segment(digits[DIGIT_4]);
+    inactiveBuffer[0] |= get_top_seven_segment(digits[DIGIT_3]) << 4;
+    inactiveBuffer[1] |= get_top_seven_segment(digits[DIGIT_2]);
+    inactiveBuffer[1] |= get_top_seven_segment(digits[DIGIT_1]) << 4;
+    inactiveBuffer[2] |= get_bottom_seven_segment(digits[DIGIT_1]);
+    inactiveBuffer[2] |= get_bottom_seven_segment(digits[DIGIT_2]) << 4;
+    inactiveBuffer[3] |= get_bottom_seven_segment(digits[DIGIT_3]);
+    inactiveBuffer[3] |= get_bottom_seven_segment(digits[DIGIT_4]) << 4;
 
     // Set the decimal, colons, and + characters. 
-    obc_buffer[inactiveBuffer][2] |= digits[COLON_1] << 4;
-    obc_buffer[inactiveBuffer][4] |= digits[COLON_2] << 7;
-    obc_buffer[inactiveBuffer][2] |= (digits[DIGIT_1] & 0x01);
-    obc_buffer[inactiveBuffer][3] |= (digits[DIGIT_2] & 0x01);
-    obc_buffer[inactiveBuffer][3] |= (digits[DIGIT_3] & 0x01) << 4;
+    inactiveBuffer[2] |= digits[COLON_1] << 4;
+    inactiveBuffer[4] |= digits[COLON_2] << 7;
+    inactiveBuffer[2] |= (digits[DIGIT_1] & 0x01);
+    inactiveBuffer[3] |= (digits[DIGIT_2] & 0x01);
+    inactiveBuffer[3] |= (digits[DIGIT_3] & 0x01) << 4;
 
     // Get the 16-segs. Good luck.
-    obc_buffer[inactiveBuffer][4] |= get_top_sixteen_segment(digits[DIGIT_6]);
-    obc_buffer[inactiveBuffer][5] |= get_top_sixteen_segment(digits[DIGIT_5]) << 1;
-    obc_buffer[inactiveBuffer][6] |= get_bottom_sixteen_segment(digits[DIGIT_5]);
-    obc_buffer[inactiveBuffer][7] |= get_bottom_sixteen_segment(digits[DIGIT_6]);
-    obc_buffer[inactiveBuffer][8] |= get_bottom_sixteen_segment(digits[DIGIT_7]);
+    inactiveBuffer[4] |= get_top_sixteen_segment(digits[DIGIT_6]);
+    inactiveBuffer[5] |= get_top_sixteen_segment(digits[DIGIT_5]) << 1;
+    inactiveBuffer[6] |= get_bottom_sixteen_segment(digits[DIGIT_5]);
+    inactiveBuffer[7] |= get_bottom_sixteen_segment(digits[DIGIT_6]);
+    inactiveBuffer[8] |= get_bottom_sixteen_segment(digits[DIGIT_7]);
     // Time to deal with the oddball digit #8
-    // Or not...
+    inactiveBuffer[9] |= get_bottom_fourteen_segment(digits[DIGIT_8]);
+    inactiveBuffer[10] |= get_top_fourteen_segment(digits[DIGIT_8]);
 
-    obc_buffer[inactiveBuffer][11] |= get_top_sixteen_segment(digits[DIGIT_7]);
+    inactiveBuffer[11] |= get_top_sixteen_segment(digits[DIGIT_7]);
     // Get the B segments on the 16-segment display
-    obc_buffer[inactiveBuffer][5] |= (digits[DIGIT_5] & 0x0040) >> 2;
-    obc_buffer[inactiveBuffer][10] |= (digits[DIGIT_5] & 0x0040) << 5;
-    obc_buffer[inactiveBuffer][11] |= (digits[DIGIT_5] & 0x0040) << 5;
+    inactiveBuffer[5]  |= (digits[DIGIT_5] & 0x0004) >> 2;
+    inactiveBuffer[10] |= (digits[DIGIT_7] & 0x0004) << 5;
+    inactiveBuffer[11] |= (digits[DIGIT_6] & 0x0004) << 5;
     // Getting the G2 segments
-    obc_buffer[inactiveBuffer][7] |= (digits[DIGIT_5] & 0x0040) >> 11;
-    obc_buffer[inactiveBuffer][8] |= (digits[DIGIT_6] & 0x0040) >> 11;
-    obc_buffer[inactiveBuffer][9] |= (digits[DIGIT_7] & 0x0040) >> 11;
+    inactiveBuffer[7] |= (digits[DIGIT_5] & 0x0800) >> 11;
+    inactiveBuffer[8] |= (digits[DIGIT_6] & 0x0800) >> 11;
+    inactiveBuffer[9] |= (digits[DIGIT_7] & 0x0800) >> 11;
 
     obc_active_buffer = (obc_active_buffer == 0) ? 1 : 0;
 }

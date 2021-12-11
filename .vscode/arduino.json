@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "display_protocol_testing\\display_protocol_testing.ino",
+    "programmer": "AVR ISP",
+    "port": "COM3"
+}

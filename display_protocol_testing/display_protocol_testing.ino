@@ -73,22 +73,46 @@ void setup() {
   
   // Add commands to the shell
   shell_register(get_display_buffer, PSTR("get"));
-  char testStr[] = {'1','2','3','4','T','E','S','T',0};
+  char testStr[] = {'1','2','3','4','T','E','N','N',0};
+//  char testStr[] = {'A','A','A','A','A','A','A','A',0};
   obc_writestr(testStr);
 
   update_buffer();
-  update_buffer();
-  update_buffer();
 }
 int loopCount = 0;
+
+char getTestChar() {
+  static char testCharacter = 'A' - 1;
+  
+  if ( testCharacter == 'Z' ) {
+    testCharacter = 'a';
+  } else if ( testCharacter == 'z' ) {
+    testCharacter = 'A';
+  } else {
+    testCharacter++;
+  }
+
+  return testCharacter;
+}
+ 
 void loop() {
-  if(0 == (loopCount %= 40)) {
-    // put your main code here, to run repeatedly:
+  if(0 == (loopCount % 40)) {
+    // put your main code here, to run repeatedly:       
     sendStartMessage();
     for(int i = 0; i < 12; i++) {
       sendByte(obc_buffer[obc_active_buffer][i], i == 11);
     }
   }
+
+//  if(0 == (loopCount %= 160)) {
+//    char testChar = getTestChar();
+//
+//    char testCharArray[8] = {testChar, testChar, testChar, testChar, testChar, testChar, testChar, testChar };
+//
+//    obc_writestr(testCharArray);
+//    update_buffer();
+//  }
+  
   loopCount++;
   delay(5);
     
