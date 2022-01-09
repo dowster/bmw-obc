@@ -50,13 +50,13 @@ void setup() {
   
   // Prepare serial communication
   Serial.begin(9600);
-
-  shell_println("Starting display prototype");
   
   // Initialize command line interface (CLI)
   // We pass the function pointers to the read and write functions that we implement below
   // We can also pass a char pointer to display a custom start message
   shell_init(shell_reader, shell_writer, 0);
+
+  shell_println("Starting display prototype");
   
   // Add commands to the shell
   shell_register(set_all_bits, PSTR("setall"));
@@ -73,8 +73,8 @@ void setup() {
   
   // Add commands to the shell
   shell_register(get_display_buffer, PSTR("get"));
-  char testStr[] = {'1','2','3','4','T','E','N','N',0};
-//  char testStr[] = {'A','A','A','A','A','A','A','A',0};
+//  char testStr[] = {'1','2','3','4','T','E','N','N',0};
+  char testStr[] = {'A','A','A','A','A','A','A','A',0};
   obc_writestr(testStr);
 
   update_buffer();

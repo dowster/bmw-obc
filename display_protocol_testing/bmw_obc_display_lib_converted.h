@@ -1,4 +1,4 @@
-#include "arduino.h"
+#include "Arduino.h"
 #include "stdint.h"
 #include "string.h"
 
@@ -107,102 +107,102 @@ const uint8_t SevenSegmentASCII[96] PROGMEM  = {
 };
 
 const uint16_t FourteenSegmentASCII[96] PROGMEM  = {
-	0b000 0000 0000 0000, /* (space) */ /* Not converted.. */
-	0b100 0000 0000 0110, /* ! */ /* Not converted.. */
-	0b000 0010 0000 0010, /* " */ /* Not converted.. */
-	0b001 0010 1100 1110, /* # */ /* Not converted.. */
-	0b001 0010 1110 1101, /* $ */ /* Not converted.. */
-	0b011 1111 1110 0100, /* % */ /* Not converted.. */
-	0b010 0011 0101 1001, /* & */ /* Not converted.. */
-	0b000 0010 0000 0000, /* ' */ /* Not converted.. */
-	0b010 0100 0000 0000, /* ( */ /* Not converted.. */
-	0b000 1001 0000 0000, /* ) */ /* Not converted.. */
-	0b011 1111 1100 0000, /* * */ /* Not converted.. */
-	0b001 0010 1100 0000, /* + */ /* Not converted.. */
-	0b000 1000 0000 0000, /* , */ /* Not converted.. */
-	0b000 0000 1100 0000, /* - */ /* Not converted.. */
-	0b100 0000 0000 0000, /* . */ /* Not converted.. */
-	0b000 1100 0000 0000, /* / */ /* Not converted.. */
-	0b000 1100 0011 1111, /* 0 */ /* Not converted.. */
-	0b000 0100 0000 0110, /* 1 */ /* Not converted.. */
-	0b000 0000 1101 1011, /* 2 */ /* Not converted.. */
-	0b000 0000 1000 1111, /* 3 */ /* Not converted.. */
-	0b000 0000 1110 0110, /* 4 */ /* Not converted.. */
-	0b010 0000 0110 1001, /* 5 */ /* Not converted.. */
-	0b000 0000 1111 1101, /* 6 */ /* Not converted.. */
-	0b000 0000 0000 0111, /* 7 */ /* Not converted.. */
-	0b000 0000 1111 1111, /* 8 */ /* Not converted.. */
-	0b000 0000 1110 1111, /* 9 */ /* Not converted.. */
-	0b001 0010 0000 0000, /* : */ /* Not converted.. */
-	0b000 1010 0000 0000, /* ; */ /* Not converted.. */
-	0b010 0100 0100 0000, /* < */ /* Not converted.. */
-	0b000 0000 1100 1000, /* = */ /* Not converted.. */
-	0b000 1001 1000 0000, /* > */ /* Not converted.. */
-	0b101 0000 1000 0011, /* ? */ /* Not converted.. */
-	0b000 0010 1011 1011, /* @ */ /* Not converted.. */
-	0b000 0000 1111 0111, /* A */ /* Not converted.. */
-	0b001 0010 1000 1111, /* B */ /* Not converted.. */
-	0b000 0000 0011 1001, /* C */ /* Not converted.. */
-	0b001 0010 0000 1111, /* D */ /* Not converted.. */
-	0b000 0000 0111 1001, /* E */ /* Not converted.. */
-	0b000 0000 0111 0001, /* F */ /* Not converted.. */
-	0b000 0000 1011 1101, /* G */ /* Not converted.. */
-	0b000 0000 1111 0110, /* H */ /* Not converted.. */
-	0b001 0010 0000 1001, /* I */ /* Not converted.. */
-	0b000 0000 0001 1110, /* J */ /* Not converted.. */
-	0b010 0100 0111 0000, /* K */ /* Not converted.. */
-	0b000 0000 0011 1000, /* L */ /* Not converted.. */
-	0b000 0101 0011 0110, /* M */ /* Not converted.. */
-	0b010 0001 0011 0110, /* N */ /* Not converted.. */
-	0b000 0000 0011 1111, /* O */ /* Not converted.. */
-	0b000 0000 1111 0011, /* P */ /* Not converted.. */
-	0b010 0000 0011 1111, /* Q */ /* Not converted.. */
-	0b010 0000 1111 0011, /* R */ /* Not converted.. */
-	0b000 0000 1110 1101, /* S */ /* Not converted.. */
-	0b001 0010 0000 0001, /* T */ /* Not converted.. */
-	0b000 0000 0011 1110, /* U */ /* Not converted.. */
-	0b000 1100 0011 0000, /* V */ /* Not converted.. */
-	0b010 1000 0011 0110, /* W */ /* Not converted.. */
-	0b010 1101 0000 0000, /* X */ /* Not converted.. */
-	0b000 0000 1110 1110, /* Y */ /* Not converted.. */
-	0b000 1100 0000 1001, /* Z */ /* Not converted.. */
-	0b000 0000 0011 1001, /* [ */ /* Not converted.. */
-	0b010 0001 0000 0000, /* \ */ /* Not converted.. */
-	0b000 0000 0000 1111, /* ] */ /* Not converted.. */
-	0b010 1000 0000 0000, /* ^ */ /* Not converted.. */
-	0b000 0000 0000 1000, /* _ */ /* Not converted.. */
-	0b000 0001 0000 0000, /* ` */ /* Not converted.. */
-	0b001 0000 0101 1000, /* a */ /* Not converted.. */
-	0b010 0000 0111 1000, /* b */ /* Not converted.. */
-	0b000 0000 1101 1000, /* c */ /* Not converted.. */
-	0b000 1000 1000 1110, /* d */ /* Not converted.. */
-	0b000 1000 0101 1000, /* e */ /* Not converted.. */
-	0b001 0100 1100 0000, /* f */ /* Not converted.. */
-	0b000 0100 1000 1110, /* g */ /* Not converted.. */
-	0b001 0000 0111 0000, /* h */ /* Not converted.. */
-	0b001 0000 0000 0000, /* i */ /* Not converted.. */
-	0b000 1010 0001 0000, /* j */ /* Not converted.. */
-	0b011 0110 0000 0000, /* k */ /* Not converted.. */
-	0b000 0000 0011 0000, /* l */ /* Not converted.. */
-	0b001 0000 1101 0100, /* m */ /* Not converted.. */
-	0b001 0000 0101 0000, /* n */ /* Not converted.. */
-	0b000 0000 1101 1100, /* o */ /* Not converted.. */
-	0b000 0001 0111 0000, /* p */ /* Not converted.. */
-	0b000 0100 1000 0110, /* q */ /* Not converted.. */
-	0b000 0000 0101 0000, /* r */ /* Not converted.. */
-	0b010 0000 1000 1000, /* s */ /* Not converted.. */
-	0b000 0000 0111 1000, /* t */ /* Not converted.. */
-	0b000 0000 0001 1100, /* u */ /* Not converted.. */
-	0b000 1000 0001 0000, /* v */ /* Not converted.. */
-	0b010 1000 0001 0100, /* w */ /* Not converted.. */
-	0b010 1101 0000 0000, /* x */ /* Not converted.. */
-	0b000 0010 1000 1110, /* y */ /* Not converted.. */
-	0b000 1000 0100 1000, /* z */ /* Not converted.. */
-	0b000 1001 0100 1001, /* { */ /* Not converted.. */
-	0b001 0010 0000 0000, /* | */ /* Not converted.. */
-	0b010 0100 1000 1001, /* } */ /* Not converted.. */
-	0b000 1100 1100 0000, /* ~ */ /* Not converted.. */
-	0b000 0000 0000 0000, /* (del) */ /* Not converted.. */
+	0b000000000000000, /* (space) */ /* Not converted.. */
+	0b100000000000110, /* ! */ /* Not converted.. */
+	0b000001000000010, /* " */ /* Not converted.. */
+	0b001001011001110, /* # */ /* Not converted.. */
+	0b001001011101101, /* $ */ /* Not converted.. */
+	0b011111111100100, /* % */ /* Not converted.. */
+	0b010001101011001, /* & */ /* Not converted.. */
+	0b000001000000000, /* ' */ /* Not converted.. */
+	0b010010000000000, /* ( */ /* Not converted.. */
+	0b000100100000000, /* ) */ /* Not converted.. */
+	0b011111111000000, /* * */ /* Not converted.. */
+	0b001001011000000, /* + */ /* Not converted.. */
+	0b000100000000000, /* , */ /* Not converted.. */
+	0b000000011000000, /* - */ /* Not converted.. */
+	0b100000000000000, /* . */ /* Not converted.. */
+	0b000110000000000, /* / */ /* Not converted.. */
+	0b000110000111111, /* 0 */ /* Not converted.. */
+	0b000010000000110, /* 1 */ /* Not converted.. */
+	0b000000011011011, /* 2 */ /* Not converted.. */
+	0b000000010001111, /* 3 */ /* Not converted.. */
+	0b000000011100110, /* 4 */ /* Not converted.. */
+	0b010000001101001, /* 5 */ /* Not converted.. */
+	0b000000011111101, /* 6 */ /* Not converted.. */
+	0b000000000000111, /* 7 */ /* Not converted.. */
+	0b000000011111111, /* 8 */ /* Not converted.. */
+	0b000000011101111, /* 9 */ /* Not converted.. */
+	0b001001000000000, /* : */ /* Not converted.. */
+	0b000101000000000, /* ; */ /* Not converted.. */
+	0b010010001000000, /* < */ /* Not converted.. */
+	0b000000011001000, /* = */ /* Not converted.. */
+	0b000100110000000, /* > */ /* Not converted.. */
+	0b101000010000011, /* ? */ /* Not converted.. */
+	0b000001010111011, /* @ */ /* Not converted.. */
+	0b000000011110111, /* A */ /* Not converted.. */
+	0b001001010001111, /* B */ /* Not converted.. */
+	0b000000000111001, /* C */ /* Not converted.. */
+	0b001001000001111, /* D */ /* Not converted.. */
+	0b000000001111001, /* E */ /* Not converted.. */
+	0b000000001110001, /* F */ /* Not converted.. */
+	0b000000010111101, /* G */ /* Not converted.. */
+	0b000000011110110, /* H */ /* Not converted.. */
+	0b001001000001001, /* I */ /* Not converted.. */
+	0b000000000011110, /* J */ /* Not converted.. */
+	0b010010001110000, /* K */ /* Not converted.. */
+	0b000000000111000, /* L */ /* Not converted.. */
+	0b000010100110110, /* M */ /* Not converted.. */
+	0b010000100110110, /* N */ /* Not converted.. */
+	0b000000000111111, /* O */ /* Not converted.. */
+	0b000000011110011, /* P */ /* Not converted.. */
+	0b010000000111111, /* Q */ /* Not converted.. */
+	0b010000011110011, /* R */ /* Not converted.. */
+	0b000000011101101, /* S */ /* Not converted.. */
+	0b001001000000001, /* T */ /* Not converted.. */
+	0b000000000111110, /* U */ /* Not converted.. */
+	0b000110000110000, /* V */ /* Not converted.. */
+	0b010100000110110, /* W */ /* Not converted.. */
+	0b010110100000000, /* X */ /* Not converted.. */
+	0b000000011101110, /* Y */ /* Not converted.. */
+	0b000110000001001, /* Z */ /* Not converted.. */
+	0b000000000111001, /* [ */ /* Not converted.. */
+	0b010000100000000, /* \ */ /* Not converted.. */
+	0b000000000001111, /* ] */ /* Not converted.. */
+	0b010100000000000, /* ^ */ /* Not converted.. */
+	0b000000000001000, /* _ */ /* Not converted.. */
+	0b000000100000000, /* ` */ /* Not converted.. */
+	0b001000001011000, /* a */ /* Not converted.. */
+	0b010000001111000, /* b */ /* Not converted.. */
+	0b000000011011000, /* c */ /* Not converted.. */
+	0b000100010001110, /* d */ /* Not converted.. */
+	0b000100001011000, /* e */ /* Not converted.. */
+	0b001010011000000, /* f */ /* Not converted.. */
+	0b000010010001110, /* g */ /* Not converted.. */
+	0b001000001110000, /* h */ /* Not converted.. */
+	0b001000000000000, /* i */ /* Not converted.. */
+	0b000101000010000, /* j */ /* Not converted.. */
+	0b011011000000000, /* k */ /* Not converted.. */
+	0b000000000110000, /* l */ /* Not converted.. */
+	0b001000011010100, /* m */ /* Not converted.. */
+	0b001000001010000, /* n */ /* Not converted.. */
+	0b000000011011100, /* o */ /* Not converted.. */
+	0b000000101110000, /* p */ /* Not converted.. */
+	0b000010010000110, /* q */ /* Not converted.. */
+	0b000000001010000, /* r */ /* Not converted.. */
+	0b010000010001000, /* s */ /* Not converted.. */
+	0b000000001111000, /* t */ /* Not converted.. */
+	0b000000000011100, /* u */ /* Not converted.. */
+	0b000100000010000, /* v */ /* Not converted.. */
+	0b010100000010100, /* w */ /* Not converted.. */
+	0b010110100000000, /* x */ /* Not converted.. */
+	0b000001010001110, /* y */ /* Not converted.. */
+	0b000100001001000, /* z */ /* Not converted.. */
+	0b000100101001001, /* { */ /* Not converted.. */
+	0b001001000000000, /* | */ /* Not converted.. */
+	0b010010010001001, /* } */ /* Not converted.. */
+	0b000110011000000, /* ~ */ /* Not converted.. */
+	0b000000000000000, /* (del) */ /* Not converted.. */
 };
 
 const uint32_t SixteenSegmentASCII[96] PROGMEM  = {

@@ -1,5 +1,22 @@
 # 80s BMW On-Board Computer Display Protocol
 
+## Display wiring
+
+Looking at the 5 pin header on the PCB there is a + marking near the "top" which I'll use as pin 1. 
+To keep it simple, Pin 1 on the PCB header connects to Pin 1 on the ribbon cable from the display.
+
+- Pin 1 is possibly the +5v feed.
+- Pin 2 seems to be a PWM signal to control the opacity of the LCD segments (what to drive this with?)
+- Pin 3 the data line
+- Pin 4 is the clock signal
+- Pin 5 is the ground
+
+Message protocol
+- Send Preamble
+- Send 24 data messages (12 bytes)
+- During the pause on the last message set the data line high just before setting clock low
+
+
 ## Display Layout
 
 | Digit 1 | Digit 2 | Colon 1 | Digit 3 | Digit 4 | Digit 5 | Digit 6 | Colon 2 | Digit 7 | Digit 8 |
